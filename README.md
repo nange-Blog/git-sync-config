@@ -38,7 +38,3 @@ This plugin can sync configuration files to GitHub Gist, Gitee Gist, or GitLab S
 > **Note:** A Gist ID is required for both upload and download. The plugin will only update the existing gist/snippet and will not create a new one.
 
 ---
-
-Like my work?
-
-[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/huangxingguang)
