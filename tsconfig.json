@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
+    "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "dist",
     "lib": [

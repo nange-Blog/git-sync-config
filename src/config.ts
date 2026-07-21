@@ -8,7 +8,13 @@ export class SyncConfigProvider extends ConfigProvider {
             token: '',
             gist: '',
             lastSyncTime: '-',
-            encryption: false
+            encryption: false,
+            autoSync: false,
+            autoSyncInterval: 5,
+            localHash: '',
+            remoteHash: '',
+            syncLogs: [],
+            syncLogMax: 5,
         }
     }
 }

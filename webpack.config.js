@@ -38,6 +38,7 @@ module.exports = {
   externals: [
     'keytar',
     'fs',
+    'crypto',
     'ngx-toastr',
     /^rxjs/,
     /^@angular/,

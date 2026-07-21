@@ -21,20 +21,20 @@ div.sync-config-settings-tab
                 .header
                     .title Instance URL
                 input.form-control(
-                    type='text', 
+                    type='text',
                     placeholder="https://gitlab.com",
-                    [(ngModel)]='config.store.syncConfig.baseUrl', 
+                    [(ngModel)]='config.store.syncConfig.baseUrl',
                     (ngModelChange)='config.save()',
-                )   
+                )
             .form-line
                 .header
                     .title Token
                 input.form-control(
-                    type='text', 
+                    type='text',
                     placeholder="token",
-                    [(ngModel)]='config.store.syncConfig.token', 
+                    [(ngModel)]='config.store.syncConfig.token',
                     (ngModelChange)='config.save()',
-                )   
+                )
             .form-line
                 .header
                     .title Encryption
@@ -45,12 +45,33 @@ div.sync-config-settings-tab
                 )
             .form-line
                 .header
+                    .title Auto Sync
+                    .description Automatically sync config when changes detected
+                toggle(
+                    [(ngModel)]='config.store.syncConfig.autoSync',
+                    (ngModelChange)='onAutoSyncToggle()',
+                )
+            .form-line(*ngIf='config.store.syncConfig.autoSync')
+                .header
+                    .title Interval
+                    .description Check for changes every N minutes
+                select.form-control(
+                    [(ngModel)]='config.store.syncConfig.autoSyncInterval',
+                    (ngModelChange)='onAutoSyncIntervalChange()'
+                )
+                    option(ngValue=1) 1 min
+                    option(ngValue=3) 3 min
+                    option(ngValue=5) 5 min
+                    option(ngValue=10) 10 min
+                    option(ngValue=30) 30 min
+            .form-line
+                .header
                     .title Gist
                 .input-group
                     input.form-control(
-                        type='text', 
+                        type='text',
                             placeholder="use existing gist id or auto generate gist id",
-                            [(ngModel)]='config.store.syncConfig.gist', 
+                            [(ngModel)]='config.store.syncConfig.gist',
                             (ngModelChange)='config.save()',
                     )
                     .input-group-append(*ngIf='config.store.syncConfig.type !== "Gitee"')
@@ -63,7 +84,7 @@ div.sync-config-settings-tab
             .form-line
                 button.btn.btn-outline-primary.mr-3(
                     (click)='sync(true)',
-                    [disabled]='isUploading || isDownloading',
+                    [disabled]='isUploading || isDownloading || isAutoSyncing',
                 )
                     div.fa.fa-fw.fa-upload(*ngIf='!isUploading')
                     div.fa.fa-cog.fa-spin(*ngIf='isUploading')
@@ -72,11 +93,29 @@ div.sync-config-settings-tab
                 button.btn.btn-outline-warning(
                     (click)='sync(false)',
                     style={'margin-right':'10px'},
-                    [disabled]='isUploading || isDownloading',
-                ) 
+                    [disabled]='isUploading || isDownloading || isAutoSyncing',
+                )
                     div.fa.fa-cog.fa-spin(*ngIf='isDownloading')
                     div.fa.fa-fw.fa-download(*ngIf='!isDownloading')
                     span.ml-2 Download config
             .form-line
                 p.text-white(*ngIf='isUploading || isDownloading') Syncing
-                p.text-white(*ngIf='!(isUploading || isDownloading)') Last sync time : {{ config.store.syncConfig.lastSyncTime }}
+                p.text-white(*ngIf='isAutoSyncing && !isUploading && !isDownloading') Auto syncing
+                p.text-white(*ngIf='!(isUploading || isDownloading || isAutoSyncing)') Last sync time : {{ config.store.syncConfig.lastSyncTime }}
+            .form-line
+                .header
+                    .title Sync Logs
+                    select.sync-log-max-select(
+                        [(ngModel)]='config.store.syncConfig.syncLogMax',
+                        (ngModelChange)='onSyncLogMaxChange()'
+                    )
+                        option(ngValue=3) 3
+                        option(ngValue=5) 5
+                        option(ngValue=10) 10
+                        option(ngValue=20) 20
+                .sync-log-box
+                    .sync-log-entry(*ngFor='let log of syncLogs')
+                        span.log-time {{ log.time }}
+                        span.log-direction([class.log-success]='log.success', [class.log-fail]='!log.success') {{ log.direction }}
+                        span.log-status {{ log.success ? '✓' : '✗' }}
+                        span.log-message {{ log.message }}
