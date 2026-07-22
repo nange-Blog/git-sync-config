@@ -1,7 +1,7 @@
 {
-  "name": "terminus-sync-config",
+  "name": "tabby-config-sync",
   "version": "1.2.1",
-  "description": "Sync configuration files to GitHub Gist or Gitee Gist",
+  "description": "Sync configuration files to GitHub Gist, Gitee Gist, or GitLab Snippet",
   "keywords": [
     "terminus-plugin",
     "tabby-plugin"
@@ -17,7 +17,7 @@
   "files": [
     "dist"
   ],
-  "author": "starxg",
+  "author": "zhangnan666",
   "license": "MIT",
   "devDependencies": {
     "@angular/animations": "^7.2.8",
@@ -60,7 +60,7 @@
   "peerDependencies": {
     "@angular/core": "^4.0.1"
   },
-  "repository": "starxg/terminus-sync-config",
+  "repository": "nange-Blog/git-sync-config",
   "dependencies": {
     "crypto-js": "^4.0.0"
   }
